@@ -1,0 +1,28 @@
+# This deployment requires a Kubernetes node to be labeled.
+# See `kubectl label -h` about labeling nodes,
+# and the spec -> template -> spec -> nodeSelector section of this file.
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    app: myapp
+  name: myapp
+  namespace: default
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: myapp
+  template:
+    metadata:
+      labels:
+        app: myapp
+    spec:
+      containers:
+      - image: nginx
+        imagePullPolicy: Always
+        name: nginx
+      nodeSelector:
+        lifecycle: demand
+

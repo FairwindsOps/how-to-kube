@@ -1,0 +1,68 @@
+# Example pod that outputs environment variables.
+# Apply this manifest and view its logs:
+# kubectl apply -f example1.yaml
+# kubectl logs example1
+#
+# Clean up this pod with: kubectl delete pod example1
+#
+apiVersion: v1
+kind: Pod
+metadata:
+  name: example1
+spec:
+  containers:
+    - name: vars-example
+      image: k8s.gcr.io/busybox:1.24
+      # Output environment variables which are set below.
+      # A loop is used to keep the pod running.
+      command:
+        - "sh"
+        - "-c"
+      args:
+      - while true; do
+          echo This pod\'s purpose is $(purpose). It is named $(pod_name), running in namespace $(pod_namespace), on node $(node_name). \
+          It has a CPU limit of $(cpu_limit), and a memory limit of $(memory_limit);
+          sleep 3600;
+        done;
+      resources:
+        requests:
+          memory: "2Mi"
+          cpu: "5m"
+        limits:
+          memory: "25Mi"
+          cpu: "250m"
+      env:
+      # Set an environment variable to a static value.
+      - name: purpose
+        value: "to be the best Kubernetes pod"
+      # Set environment variables to the resource limits assigned to this container.
+      # requests.memory or requests.cpu can also be used here.
+      - name: cpu_limit
+        valueFrom:
+          resourceFieldRef:
+            #containerName: vars-example
+            resource: limits.cpu
+            # This defaults to 1 core for CPU.
+            divisor: 1m
+      - name: memory_limit
+        valueFrom:
+          resourceFieldRef:
+            #containerName: vars-example
+            resource: limits.memory
+            # This defaults to 1 byte for memory
+            divisor: 1Mi
+      # Set environment variables to the pod name, namespace, and node where the pod is running.
+      - name: pod_name
+        valueFrom:
+          fieldRef:
+            fieldPath: metadata.name
+      - name: pod_namespace
+        valueFrom:
+          fieldRef:
+            fieldPath: metadata.namespace
+      - name: node_name
+        valueFrom:
+          fieldRef:
+            fieldPath: spec.nodeName
+
+

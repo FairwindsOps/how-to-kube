@@ -1,0 +1,6 @@
+# This namespace is used by the other files in this directory.
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: demo

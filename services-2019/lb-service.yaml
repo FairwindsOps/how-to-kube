@@ -1,0 +1,20 @@
+# This service targets pods in the deployment from `deployment.yaml`.
+# Note that this service will create a load balancer,
+# which can cause you to be charged by a cloud provider!
+# Be sure to use `kubectl delete -f lb-service.yaml` to clean up!
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: myapp
+  namespace: demo
+spec:
+  type: LoadBalancer
+  externalTrafficPolicy: Local
+  ports:
+    - name: '80'
+      protocol: TCP
+      port: 80
+      targetPort: 80
+  selector:
+    app: myapp

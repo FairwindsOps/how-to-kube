@@ -1,0 +1,25 @@
+# This pod provides a place to `kubectl exec ...` into,
+# to look at the ClusterIP service from within Kubernetes.
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: dnstools
+  namespace: demo
+spec:
+  containers:
+  - image: infoblox/dnstools:latest
+    command:
+    - /bin/sleep
+    args:
+    - "99999"
+    imagePullPolicy: IfNotPresent
+    name: dnstools
+    resources:
+      limits:
+        cpu: 100m
+        memory: 256Mi
+      requests:
+        cpu: 100m
+        memory: 256Mi
+  restartPolicy: Never

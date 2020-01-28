@@ -1,0 +1,24 @@
+# This deployment is targeted by the service defined in `lb-service.yaml`.
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    app: myapp
+  name: myapp
+  namespace: demo
+spec:
+  replicas: 8
+  selector:
+    matchLabels:
+      app: myapp
+  template:
+    metadata:
+      labels:
+        app: myapp
+    spec:
+      containers:
+      - image: nginxdemos/hello:plain-text
+        imagePullPolicy: Always
+        name: nginx
+

@@ -1,0 +1,11 @@
+# This ConfigMap manages files in the /app/config directory for the example2 pod.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: example2-config
+  namespace: default
+data:
+  # An example config file, that might be read by an application.
+  app.conf: |
+    concurrent=7
+    environment=staging

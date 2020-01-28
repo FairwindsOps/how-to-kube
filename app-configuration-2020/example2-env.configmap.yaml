@@ -1,0 +1,8 @@
+# This ConfigMap manages environment variables for the example2 pod.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: example2-env
+  namespace: default
+data:
+  message: Hello world!

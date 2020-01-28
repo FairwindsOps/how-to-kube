@@ -1,0 +1,47 @@
+# Example pod that uses ConfigMaps and Secrets to populate environment variables and files.
+# See also, the example2-*.yaml files.
+# Apply this manifest and exec into the pod to inspect variables and files:
+# kubectl apply -f example2.yaml
+# kubectl exec -it example2 bash
+# printenv message
+# ls -R /app
+# exit
+#
+# Clean up this pod with: kubectl delete pod example2
+#
+apiVersion: v1
+kind: Pod
+metadata:
+  name: example2
+spec:
+  # Define volumes that can be mounted by containers of this pod.
+  volumes:
+  - name: config
+    configMap:
+      name: example2-config
+      # The pod will still run if this ConfigMap does not exist.
+      optional: true
+      defaultMode: 0400
+  - name: sensitive-config
+    secret:
+      # The pod requires this Secret in orderto run.
+      secretName: example2-config
+      defaultMode: 0400
+  containers:
+  - name: example2-vars
+    image: nginx
+    volumeMounts:
+    - name: config
+      mountPath: "/app/config"
+      readOnly: true
+    - name: sensitive-config
+      mountPath: "/app/sensitive"
+      readOnly: true
+    envFrom:
+      - configMapRef:
+          # The container requires this ConfigMap in orderto run.
+          name: example2-env
+      - secretRef:
+          name: example2-env
+          # The pod will still run if this Secret does not exist.
+          optional: true
