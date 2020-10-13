@@ -7,6 +7,7 @@ The content of this repository is intended to be accompanied by the narrative of
 The below list is **not** a complete list of videos in the How to Kube series. Please see the [How to Kube series][] Youtube playlist for a list of all videos.
 
 * [Application Configuration](./app-configuration-2020/README.md)
+* [Ingress](./ingress-2019/README.md)
 * [Managing Applications Using Helm](./helm-2019/README.md)
 * [Node Labels](./node-labels-2019/README.md)
 * [Services](./services-2019/README.md)
