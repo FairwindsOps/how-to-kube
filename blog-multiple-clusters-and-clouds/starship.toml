@@ -1,0 +1,70 @@
+# A sample starship prompt configuration file,
+# to be placed in ~/.config/starship.toml
+# Ref: https://starship.rs/config/
+# Some of the Emojis used below as symbols, are ttaken from https://emojipedia.org/apple/
+
+add_newline = false
+format = """\
+    $directory\
+    $kubernetes\
+    $helm\
+    $aws\
+    $env_var\
+    ${custom.azure}\
+    $git_commit\
+    $git_state\
+    $git_status\
+    $line_break\
+    $character"""
+
+[character]
+error_symbol = "[✗](bold bright-red)"
+success_symbol = "[▶](bold green)"
+use_symbol_for_status = true
+
+[directory]
+style = "green"
+truncation_length = 8
+[directory.substitutions]
+"~" = "home"
+
+[kubernetes]
+symbol = "⎈ "
+format = " [$symbol$context( \\($namespace\\))]($style) "
+style = "bright-blue"
+disabled = false
+
+[git_branch]
+format = "[$symbol$branch]($style) "
+symbol = " "
+disabled = false
+
+[git_status]
+modified = "±"
+style = "yellow"
+disabled = false
+[line_break]
+
+[helm]
+format = "[$symbol $version](bold white) "
+symbol="⛵"
+disabled = false
+
+[aws]
+format = "on [$symbol $profile]($style) "
+symbol="⛅"
+
+# Display the environment variable used to vary the active gcloud configuration.
+[env_var]
+variable="CLOUDSDK_ACTIVE_CONFIG_NAME"
+format="$symbol  [$env_value]($style) "
+symbol="☁️"
+
+# Run an Azure CLI command to display the current subscription.
+# This requires jq is installed.
+[custom.azure]
+command="az account show -o json |jq -r .name"
+when="true"
+format="$symbol [$output]($style) "
+symbol="⛈️"
+
